@@ -11,7 +11,7 @@ Aplicación diseñada para centralizar y automatizar la gestión de datos, optim
 - Control de accesos y versiones.
 
 ## Tecnologías
-- **Lenguaje:** Python
+- **Lenguaje:** Js, Python
 - **Bases de datos:** MySQL, PostgreSQL, MongoDB
 - **Herramientas:** Git, Docker
 
