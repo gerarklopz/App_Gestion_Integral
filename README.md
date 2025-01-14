@@ -15,8 +15,4 @@ Aplicación diseñada para centralizar y automatizar la gestión de datos, optim
 - **Bases de datos:** MySQL, PostgreSQL, MongoDB
 - **Herramientas:** Git, Docker
 
-## Cómo empezar
-1. Clona este repositorio:
-   ```bash
-   git clone https://github.com/<tu-usuario>/App_Gestion_Integral.git
 
