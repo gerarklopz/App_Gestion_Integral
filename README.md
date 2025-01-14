@@ -1,8 +1,6 @@
 # App_Gestion_Integral
 Una aplicación escalable y automatizada para la gestión de bases de datos, diseñada para centralizar operaciones, optimizar flujos de trabajo y mejorar la productividad del usuario.
 
-# App de Gestión Integral
-
 ## Descripción
 Aplicación diseñada para centralizar y automatizar la gestión de datos, optimizar procesos y mejorar la productividad.
 
