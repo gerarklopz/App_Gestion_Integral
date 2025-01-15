@@ -15,5 +15,4 @@ Aplicación diseñada para centralizar y automatizar la gestión de datos, optim
 - **Bases de datos:** MySQL, PostgreSQL, MongoDB
 - **Herramientas:** Git, Docker
 
-# Cambio de prueba desde el contenedor OK!.
-# Verificación de pull y push desde contenedor OK!
+
