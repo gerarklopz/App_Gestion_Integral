@@ -100,13 +100,15 @@ Scrum es un marco de trabajo ágil que permite a los equipos trabajar de manera 
 
 ## **Comparación Scrum vs. Agile**
 
-| Aspecto                | Agile                                   | Scrum                                      |
-|------------------------|-----------------------------------------|------------------------------------------  | |
-| Metodología           | Principios iterativos e incrementales.  | Implementación específica de Agile.      |
-| Tamaño del Proyecto   | Equipos pequeños y especializados.     | Equipos multifuncionales y autoorganizados. | Liderazgo              | Gestor de proyecto lidera.              | No hay líder; Scrum Master facilita.   |
-| Flexibilidad           | Cambios no tan frecuentes.              | Cambios rápidos entre sprints.         |
-| Colaboración          | Reuniones cruzadas.                     | Reuniones diarias (daily scrum).       |
-| Diseño y Ejecución   | Simple.                                 | Innovador y experimental.              |
+
+| Aspecto                | Agile                                   | Scrum                                   |
+|------------------------|-----------------------------------------|-----------------------------------------|
+| Metodología           | Principios iterativos e incrementales.  | Implementación específica de Agile.   |
+| Tamaño del Proyecto   | Equipos pequeños y especializados.     | Equipos multifuncionales y autoorganizados. |
+| Liderazgo              | Gestor de proyecto lidera.             | No hay líder; Scrum Master facilita.   |
+| Flexibilidad           | Cambios no tan frecuentes.             | Cambios rápidos entre sprints.         |
+| Colaboración          | Reuniones cruzadas.                    | Reuniones diarias (daily scrum).        |
+| Diseño y Ejecución    | Simple.                                | Innovador y experimental.              |
 
 ---
 
