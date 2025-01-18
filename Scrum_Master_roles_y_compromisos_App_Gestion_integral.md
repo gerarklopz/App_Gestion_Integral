@@ -87,6 +87,8 @@ Un Scrum Master es el responsable de guiar al equipo Scrum para garantizar que l
 - **Eje Y:** Tareas completadas al mes.
 - **Eje X:** Número de miembros.
 
+![Productivity Image](Productivity_Two_Person_Team.png)
+
 Con un equipo pequeño, la productividad inicial puede ser más alta debido a menos conflictos de coordinación, pero a medida que crezca el equipo, las tareas completadas por miembro pueden disminuir por la necesidad de mayor comunicación y coordinación.
 
 **Nota:** Debemos optimizar los flujos de trabajo y usar herramientas adecuadas para mantener alta la productividad incluso en equipos más grandes.
