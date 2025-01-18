@@ -1,13 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Web App</title>
     <link rel="stylesheet" href="styles.css">
+    <title>App de Gestión Integral</title>
 </head>
 <body>
-    <h1>Welcome to My Web App!</h1>
+    <header>
+        <h1>Bienvenido a la App de Gestión Integral</h1>
+    </header>
+    <main>
+        <!-- Pantalla de inicio -->
+        <section id="login-screen">
+            <h2>Iniciar Sesión</h2>
+            <form id="login-form">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <button id="exit-app">Salir</button>
+        </section>
+
+        <!-- Menú Principal -->
+        <section id="main-menu" style="display:none;">
+            <h2>Menú Principal</h2>
+            <p>Hola, <span id="user-name"></span>. Selecciona tu área de trabajo:</p>
+            <button id="sala-btn">Sala</button>
+            <button id="cocina-btn">Cocina</button>
+            <button id="back-to-login">Volver al Inicio</button>
+        </section>
+
+        <!-- Sección de Sala -->
+        <section id="sala-section" style="display: none;">
+            <h2>Sección de Sala</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Artículo</th>
+                        <th>Cantidad Mes Anterior</th>
+                        <th>Cantidad Mes Actual</th>
+                        <th>Diferencia</th>
+                        <th>Gasto Mensual</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="inventory-body">
+                    <!-- Las filas dinámicas aparecerán aquí -->
+                </tbody>
+            </table>
+            <button id="add-row">Añadir Fila</button>
+            <button id="finalize-sala">Finalizar Inventario</button>
+            <button id="back-from-sala">Volver Atrás</button>
+        </section>
+        
+
+       <!-- Sección de Cocina -->
+<section id="cocina-section" style="display: none;">
+    <h2>Sección de Cocina</h2>
+    <p>Selecciona una plantilla para trabajar:</p>
+    <div id="template-list">
+        <button class="template-btn" data-template="control-alergenos">Control de Alérgenos</button>
+        <button class="template-btn" data-template="control-temperaturas">Control Diario de Temperaturas</button>
+        <button class="template-btn" data-template="registro-comidas">Registro de Comidas/Cenas</button>
+        <button class="template-btn" data-template="registro-platos">Registro de Platos/Ingredientes Elaborados</button>
+        <button class="template-btn" data-template="desinfeccion-vegetales">Desinfección de Vegetales</button>
+        <button class="template-btn" data-template="control-freidoras">Control de Freidoras</button>
+        <button class="template-btn" data-template="control-horneados">Control de Horneados</button>
+        <button class="template-btn" data-template="control-agua">Control de Agua</button>
+        <button class="template-btn" data-template="registro-incidencias">Registro de Incidencias</button>
+        <button class="template-btn" data-template="plan-limpieza">Plan de Limpieza</button>
+        <button class="template-btn" data-template="limpieza-segun-uso">Limpieza Según Uso</button>
+    </div>
+
+    <div id="template-display" style="margin-top: 20px;">
+        <!-- Aquí se cargará la plantilla seleccionada -->
+    </div>
+    <button id="back-from-cocina">Volver Atrás</button>
+</section>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>
