@@ -1,99 +1,80 @@
+/* VARIABLES DE COLOR Y FUENTES */
+:root {
+    --color-primario: #4E88C7; /* Azul principal */
+    --color-secundario: #88C785; /* Verde suave */
+    --color-fondo: #EFEFEF; /* Fondo neutro claro */
+    --color-texto: #333; /* Texto oscuro */
+    --color-acento: #FFA500; /* Naranja para acentos */
+    --fuente-principal: 'Poppins', sans-serif; /* Fuente moderna */
+    --radio-bordes: 12px; /* Bordes redondeados */
+    --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+/* CUERPO */
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--fuente-principal);
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
 }
 
+/* ENCABEZADO */
 header {
-    background-color: #007BFF;
+    background-color: var(--color-primario);
     color: #fff;
-    padding: 1rem 0;
+    padding: 1rem;
     text-align: center;
+    border-radius: var(--radio-bordes);
+    box-shadow: var(--sombra-suave);
 }
 
-h1, h2, h3 {
-    margin: 0.5rem 0;
-}
-
-main {
-    padding: 2rem;
-}
-
+/* BOTONES GENERALES */
 button {
-    background-color: #007BFF;
+    background-color: var(--color-primario);
     color: #fff;
     border: none;
-    padding: 0.5rem 1rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radio-bordes);
     cursor: pointer;
-    margin-top: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-secundario);
+    transform: translateY(-3px);
 }
 
-#inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1em;
-}
-
-#inventory-table th, #inventory-table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-}
-
-#inventory-table th {
-    background-color: #f4f4f4;
-}
-
-button {
-    margin: 5px;
-    padding: 10px 15px;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
+/* BOTONES DE ELIMINACIÓN */
+.close-btn {
+    margin-left: 10px;
+    color: red;
+    font-weight: bold;
     cursor: pointer;
+    transition: color 0.3s ease;
 }
 
-button:hover {
-    background-color: #0056b3;
+.close-btn:hover {
+    color: darkred;
 }
 
-.delete-row {
-    color: white;
-    background-color: red;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.delete-row:hover {
-    background-color: darkred;
-}
-
+/* LISTA DE PLANTILLAS */
 #template-list button {
-    margin: 5px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    margin: 0.5rem;
+    padding: 1rem;
+    background-color: var(--color-primario);
+    border-radius: var(--radio-bordes);
 }
 
 #template-list button:hover {
-    background-color: #0056b3;
+    background-color: var(--color-secundario);
 }
 
 #template-display {
-    padding: 20px;
+    padding: 1.5rem;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+    background-color: #fff;
+    border-radius: var(--radio-bordes);
+    box-shadow: var(--sombra-suave);
 }
+

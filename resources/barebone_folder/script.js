@@ -287,26 +287,30 @@ const templates = {
 };
 
 // Referencias al DOM
-const templateButtons = document.querySelectorAll('.template-btn');
-const templateDisplay = document.getElementById('template-display');
-const loginScreen = document.getElementById('login-screen');
-const mainMenu = document.getElementById('main-menu');
-const salaSection = document.getElementById('sala-section');
-const cocinaSection = document.getElementById('cocina-section');
+const templateButtons = document.querySelectorAll('.template-btn'); // Botones de plantillas
+const templateDisplay = document.getElementById('template-display'); // Visualización de plantillas
+const loginScreen = document.getElementById('login-screen'); // Pantalla de login
+const mainMenu = document.getElementById('main-menu'); // Menú principal
+const salaSection = document.getElementById('sala-section'); // Sección de Sala
+const cocinaSection = document.getElementById('cocina-section'); // Sección de Cocina
+const templateList = document.getElementById('template-list'); // Contenedor de plantillas
 
-const loginForm = document.getElementById('login-form');
-const userNameSpan = document.getElementById('user-name');
+const loginForm = document.getElementById('login-form'); // Formulario de login
+const userNameSpan = document.getElementById('user-name'); // Visualización del nombre del usuario
 
-const salaBtn = document.getElementById('sala-btn');
-const cocinaBtn = document.getElementById('cocina-btn');
-const backFromSalaBtn = document.getElementById('back-from-sala');
-const backFromCocinaBtn = document.getElementById('back-from-cocina');
-const backToLoginBtn = document.getElementById('back-to-login');
-const exitAppBtn = document.getElementById('exit-app');
+const salaBtn = document.getElementById('sala-btn'); // Botón para Sala
+const cocinaBtn = document.getElementById('cocina-btn'); // Botón para Cocina
+const backFromSalaBtn = document.getElementById('back-from-sala'); // Botón volver de Sala
+const backFromCocinaBtn = document.getElementById('back-from-cocina'); // Botón volver de Cocina
+const backToLoginBtn = document.getElementById('back-to-login'); // Botón volver al Login
+const exitAppBtn = document.getElementById('exit-app'); // Botón salir de la app
 
-const addRowBtn = document.getElementById('add-row');
-const finalizeSalaBtn = document.getElementById('finalize-sala');
-const inventoryBody = document.getElementById('inventory-body');
+const goodbyeScreen = document.getElementById('goodbye-screen'); // Pantalla de despedida
+const goodbyeExitBtn = document.getElementById('goodbye-exit'); // Botón cerrar aplicación
+
+const addRowBtn = document.getElementById('add-row'); // Botón añadir fila en Sala
+const finalizeSalaBtn = document.getElementById('finalize-sala'); // Botón finalizar en Sala
+const inventoryBody = document.getElementById('inventory-body'); // Cuerpo de la tabla en Sala
 
 // Manejo del login
 loginForm.addEventListener('submit', (event) => {
@@ -315,73 +319,175 @@ loginForm.addEventListener('submit', (event) => {
     userNameSpan.textContent = userName;
     loginScreen.style.display = 'none';
     mainMenu.style.display = 'block';
+    console.log('Inicio de sesión exitoso.');
 });
 
-// Navegación
+// Función para volver a la pantalla de inicio
+function navigateToLogin() {
+    console.log('Navegando a la pantalla de inicio...');
+    // Ocultar todas las secciones activas
+    loginScreen.style.display = 'block'; // Mostrar pantalla de inicio
+    mainMenu.style.display = 'none';
+    salaSection.style.display = 'none';
+    cocinaSection.style.display = 'none';
+    goodbyeScreen.style.display = 'none'; // Asegura que la pantalla de despedida también se oculte
+}
+
+// Evento para "Volver al Inicio"
+backToLoginBtn.addEventListener('click', () => {
+    navigateToLogin(); // Llama a la función para gestionar la navegación
+    console.log('Volviendo al Inicio desde el Menú Principal.');
+});
+
+// Navegación entre secciones
 salaBtn.addEventListener('click', () => {
     mainMenu.style.display = 'none';
     salaSection.style.display = 'block';
+    initializeSalaSection(); // Inicializa la lógica de Sala
+    console.log('Entrando en Sala.');
 });
 
 cocinaBtn.addEventListener('click', () => {
     mainMenu.style.display = 'none';
     cocinaSection.style.display = 'block';
+    initializeCocinaSection(); // Inicializa la lógica de Cocina
+    console.log('Entrando en Cocina.');
 });
 
 backFromSalaBtn.addEventListener('click', () => {
     salaSection.style.display = 'none';
     mainMenu.style.display = 'block';
+    console.log('Volviendo de Sala al Menú Principal.');
 });
 
 backFromCocinaBtn.addEventListener('click', () => {
     cocinaSection.style.display = 'none';
     mainMenu.style.display = 'block';
+    resetCocinaSection(); // Resetea el estado de la sección de cocina
+    console.log('Volviendo de Cocina al Menú Principal.');
 });
 
-backToLoginBtn.addEventListener('click', () => {
-    mainMenu.style.display = 'none';
-    loginScreen.style.display = 'block';
-});
+// Inicialización de Sala
+function initializeSalaSection() {
+    console.log("Inicializando sección de Sala...");
 
-exitAppBtn.addEventListener('click', () => {
-    alert('¡Gracias por usar la App de Gestión Integral!');
-    window.close();
-});
+    // Añadir fila dinámica
+    addRowBtn.addEventListener('click', () => {
+        const newRow = document.createElement('tr');
 
-// Manejo de botones de plantillas en cocina
-templateButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        const templateKey = button.dataset.template;
-        if (templates[templateKey]) {
-            templateDisplay.innerHTML = templates[templateKey];
-        } else {
-            templateDisplay.innerHTML = '<p>Plantilla no disponible.</p>';
+        ['Artículo', 'Cantidad Mes Anterior', 'Cantidad Mes Actual', 'Diferencia', 'Gasto Mensual'].forEach((col) => {
+            const newCell = document.createElement('td');
+            if (col === 'Artículo') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = 'Artículo';
+                newCell.appendChild(input);
+            } else if (col.includes('Cantidad')) {
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.placeholder = 'Cantidad';
+
+                const select = document.createElement('select');
+                ['L', 'Gr', 'Unid', 'Cajas'].forEach(unit => {
+                    const option = document.createElement('option');
+                    option.value = unit;
+                    option.textContent = unit;
+                    select.appendChild(option);
+                });
+
+                newCell.appendChild(input);
+                newCell.appendChild(select);
+                input.addEventListener('input', updateDifferences); // Actualiza diferencias dinámicamente
+            } else {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.placeholder = col;
+                input.disabled = true;
+                newCell.appendChild(input);
+            }
+            newRow.appendChild(newCell);
+        });
+
+        // Botón de eliminación de fila
+        const deleteCell = document.createElement('td');
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Eliminar';
+        deleteButton.className = 'delete-row';
+        deleteButton.addEventListener('click', () => newRow.remove());
+        deleteCell.appendChild(deleteButton);
+        newRow.appendChild(deleteCell);
+
+        inventoryBody.appendChild(newRow);
+    });
+
+    // Cálculo automático de diferencias
+    function updateDifferences() {
+        const rows = inventoryBody.querySelectorAll('tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const previousValue = parseFloat(cells[1].querySelector('input').value) || 0;
+            const currentValue = parseFloat(cells[2].querySelector('input').value) || 0;
+            const differenceCell = cells[3].querySelector('input');
+            differenceCell.value = currentValue - previousValue;
+        });
+    }
+}
+
+// Inicialización de Cocina
+function initializeCocinaSection() {
+    console.log("Inicializando sección de Cocina...");
+
+    // Añadir eventos a las plantillas
+    templateButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const templateKey = button.dataset.template;
+            if (templates[templateKey]) {
+                console.log(`Cargando plantilla: ${templateKey}`);
+                templateDisplay.innerHTML = templates[templateKey]; // Mostrar plantilla seleccionada
+            } else {
+                console.warn(`Plantilla no encontrada: ${templateKey}`);
+                templateDisplay.innerHTML = '<p>Plantilla no disponible.</p>';
+            }
+        });
+    });
+
+    // Evento para eliminar plantillas con la "x"
+    templateList.addEventListener('click', (event) => {
+        if (event.target.classList.contains('close-btn')) {
+            const button = event.target.closest('button'); // Encuentra el botón asociado
+            button.remove(); // Elimina la plantilla del DOM
+            console.log('Plantilla eliminada.');
         }
     });
+}
+
+// Restaurar Cocina al salir
+function resetCocinaSection() {
+    console.log('Restaurando sección de Cocina...');
+    templateDisplay.innerHTML = ''; // Limpia el contenido mostrado
+    templateList.innerHTML = ''; // Limpia la lista de plantillas
+    // Restaura las plantillas originales
+    Object.keys(templates).forEach(key => {
+        const button = document.createElement('button');
+        button.classList.add('template-btn');
+        button.dataset.template = key;
+        button.innerHTML = `${key.replace(/-/g, ' ')} <span class="close-btn">&#x2716;</span>`;
+        templateList.appendChild(button);
+    });
+    initializeCocinaSection(); // Reasigna eventos
+}
+
+// Pantalla de despedida
+exitAppBtn.addEventListener('click', () => {
+    loginScreen.style.display = 'none';
+    mainMenu.style.display = 'none';
+    salaSection.style.display = 'none';
+    cocinaSection.style.display = 'none';
+    goodbyeScreen.style.display = 'block';
+    console.log('Mostrando pantalla de despedida.');
 });
 
-// Manejo del inventario en sala
-addRowBtn.addEventListener('click', () => {
-    const newRow = document.createElement('tr');
-    ['Artículo', 'Cantidad Mes Anterior', 'Cantidad Mes Actual', 'Diferencia', 'Gasto Mensual'].forEach(() => {
-        const newCell = document.createElement('td');
-        const input = document.createElement('input');
-        input.type = 'text';
-        newCell.appendChild(input);
-        newRow.appendChild(newCell);
-    });
-
-    const deleteCell = document.createElement('td');
-    const deleteButton = document.createElement('button');
-    deleteButton.textContent = 'Eliminar';
-    deleteCell.appendChild(deleteButton);
-    newRow.appendChild(deleteCell);
-
-    inventoryBody.appendChild(newRow);
-
-    deleteButton.addEventListener('click', () => {
-        newRow.remove();
-    });
+goodbyeExitBtn.addEventListener('click', () => {
+    alert('Cerrando aplicación...');
+    console.log('Aplicación cerrada.');
 });
-
-
