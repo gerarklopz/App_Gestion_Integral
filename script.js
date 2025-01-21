@@ -1,5 +1,4 @@
 // Plantillas disponibles
-
 const templates = {
     "control-alergenos": `
         <h3>Control de Alérgenos</h3>
@@ -308,10 +307,6 @@ const exitAppBtn = document.getElementById('exit-app'); // Botón salir de la ap
 const goodbyeScreen = document.getElementById('goodbye-screen'); // Pantalla de despedida
 const goodbyeExitBtn = document.getElementById('goodbye-exit'); // Botón cerrar aplicación
 
-const addRowBtn = document.getElementById('add-row'); // Botón añadir fila en Sala
-const finalizeSalaBtn = document.getElementById('finalize-sala'); // Botón finalizar en Sala
-const inventoryBody = document.getElementById('inventory-body'); // Cuerpo de la tabla en Sala
-
 // Manejo del login
 loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -322,56 +317,64 @@ loginForm.addEventListener('submit', (event) => {
     console.log('Inicio de sesión exitoso.');
 });
 
-// Función para volver a la pantalla de inicio
-function navigateToLogin() {
-    console.log('Navegando a la pantalla de inicio...');
-    // Ocultar todas las secciones activas
-    loginScreen.style.display = 'block'; // Mostrar pantalla de inicio
-    mainMenu.style.display = 'none';
-    salaSection.style.display = 'none';
-    cocinaSection.style.display = 'none';
-    goodbyeScreen.style.display = 'none'; // Asegura que la pantalla de despedida también se oculte
-}
-
-// Evento para "Volver al Inicio"
-backToLoginBtn.addEventListener('click', () => {
-    navigateToLogin(); // Llama a la función para gestionar la navegación
-    console.log('Volviendo al Inicio desde el Menú Principal.');
-});
-
 // Navegación entre secciones
 salaBtn.addEventListener('click', () => {
     mainMenu.style.display = 'none';
     salaSection.style.display = 'block';
-    initializeSalaSection(); // Inicializa la lógica de Sala
+    initializeSalaSection();
     console.log('Entrando en Sala.');
 });
 
 cocinaBtn.addEventListener('click', () => {
     mainMenu.style.display = 'none';
     cocinaSection.style.display = 'block';
-    initializeCocinaSection(); // Inicializa la lógica de Cocina
+    initializeCocinaSection();
     console.log('Entrando en Cocina.');
 });
 
 backFromSalaBtn.addEventListener('click', () => {
     salaSection.style.display = 'none';
     mainMenu.style.display = 'block';
+    resetSalaSection();
     console.log('Volviendo de Sala al Menú Principal.');
 });
 
 backFromCocinaBtn.addEventListener('click', () => {
     cocinaSection.style.display = 'none';
     mainMenu.style.display = 'block';
-    resetCocinaSection(); // Resetea el estado de la sección de cocina
+    resetCocinaSection();
     console.log('Volviendo de Cocina al Menú Principal.');
 });
+
+backToLoginBtn.addEventListener('click', () => {
+    resetCocinaSection();
+    resetSalaSection();
+    navigateToLogin();
+    console.log('Volviendo al Inicio desde el Menú Principal.');
+});
+
+// Función para volver a la pantalla de inicio
+function navigateToLogin() {
+    loginScreen.style.display = 'block';
+    mainMenu.style.display = 'none';
+    salaSection.style.display = 'none';
+    cocinaSection.style.display = 'none';
+    goodbyeScreen.style.display = 'none';
+}
+
+// Función para restablecer Sala
+function resetSalaSection() {
+    console.log('Restableciendo sección de Sala...');
+    const inventoryBody = document.getElementById('inventory-body');
+    inventoryBody.innerHTML = '';
+}
 
 // Inicialización de Sala
 function initializeSalaSection() {
     console.log("Inicializando sección de Sala...");
+    const addRowBtn = document.getElementById('add-row');
+    const inventoryBody = document.getElementById('inventory-body');
 
-    // Añadir fila dinámica
     addRowBtn.addEventListener('click', () => {
         const newRow = document.createElement('tr');
 
@@ -397,7 +400,6 @@ function initializeSalaSection() {
 
                 newCell.appendChild(input);
                 newCell.appendChild(select);
-                input.addEventListener('input', updateDifferences); // Actualiza diferencias dinámicamente
             } else {
                 const input = document.createElement('input');
                 input.type = 'text';
@@ -408,7 +410,6 @@ function initializeSalaSection() {
             newRow.appendChild(newCell);
         });
 
-        // Botón de eliminación de fila
         const deleteCell = document.createElement('td');
         const deleteButton = document.createElement('button');
         deleteButton.textContent = 'Eliminar';
@@ -419,31 +420,21 @@ function initializeSalaSection() {
 
         inventoryBody.appendChild(newRow);
     });
-
-    // Cálculo automático de diferencias
-    function updateDifferences() {
-        const rows = inventoryBody.querySelectorAll('tr');
-        rows.forEach(row => {
-            const cells = row.querySelectorAll('td');
-            const previousValue = parseFloat(cells[1].querySelector('input').value) || 0;
-            const currentValue = parseFloat(cells[2].querySelector('input').value) || 0;
-            const differenceCell = cells[3].querySelector('input');
-            differenceCell.value = currentValue - previousValue;
-        });
-    }
 }
 
 // Inicialización de Cocina
 function initializeCocinaSection() {
     console.log("Inicializando sección de Cocina...");
 
-    // Añadir eventos a las plantillas
     templateButtons.forEach(button => {
         button.addEventListener('click', () => {
             const templateKey = button.dataset.template;
             if (templates[templateKey]) {
                 console.log(`Cargando plantilla: ${templateKey}`);
-                templateDisplay.innerHTML = templates[templateKey]; // Mostrar plantilla seleccionada
+                templateDisplay.innerHTML = templates[templateKey];
+
+                // Activar lógica específica para añadir y eliminar filas dinámicas
+                addDynamicRowFunctionality();
             } else {
                 console.warn(`Plantilla no encontrada: ${templateKey}`);
                 templateDisplay.innerHTML = '<p>Plantilla no disponible.</p>';
@@ -451,22 +442,70 @@ function initializeCocinaSection() {
         });
     });
 
-    // Evento para eliminar plantillas con la "x"
+    // Evento para eliminar plantillas
     templateList.addEventListener('click', (event) => {
         if (event.target.classList.contains('close-btn')) {
-            const button = event.target.closest('button'); // Encuentra el botón asociado
-            button.remove(); // Elimina la plantilla del DOM
+            const button = event.target.closest('button');
+            button.remove();
+
+            // Limpiar si la plantilla eliminada está activa
+            if (button.dataset.template === templateDisplay.dataset.activeTemplate) {
+                templateDisplay.innerHTML = '<p>Seleccione otra plantilla</p>';
+            }
             console.log('Plantilla eliminada.');
         }
     });
 }
+
+// Función para añadir y eliminar filas dinámicas
+function addDynamicRowFunctionality() {
+    const table = templateDisplay.querySelector('table');
+    if (!table) {
+        console.warn('No se encontró tabla en la plantilla seleccionada.');
+        return;
+    }
+
+    const addRowButton = document.createElement('button');
+    addRowButton.textContent = 'Añadir Fila';
+    addRowButton.style.marginTop = '10px';
+    addRowButton.addEventListener('click', () => {
+        const newRow = document.createElement('tr');
+        const columns = table.querySelector('thead tr').children;
+
+        Array.from(columns).forEach(() => {
+            const newCell = document.createElement('td');
+            const input = document.createElement('input');
+            input.type = 'text';
+            newCell.appendChild(input);
+            newRow.appendChild(newCell);
+        });
+
+        const deleteCell = document.createElement('td');
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Eliminar';
+        deleteButton.className = 'delete-row';
+        deleteButton.addEventListener('click', () => {
+            newRow.remove();
+            console.log('Fila eliminada de la tabla.');
+        });
+        deleteCell.appendChild(deleteButton);
+        newRow.appendChild(deleteCell);
+
+        table.querySelector('tbody').appendChild(newRow);
+        console.log('Fila añadida a la tabla.');
+    });
+
+    templateDisplay.appendChild(addRowButton);
+}
+
+
 
 // Restaurar Cocina al salir
 function resetCocinaSection() {
     console.log('Restaurando sección de Cocina...');
     templateDisplay.innerHTML = ''; // Limpia el contenido mostrado
     templateList.innerHTML = ''; // Limpia la lista de plantillas
-    // Restaura las plantillas originales
+
     Object.keys(templates).forEach(key => {
         const button = document.createElement('button');
         button.classList.add('template-btn');
@@ -474,7 +513,8 @@ function resetCocinaSection() {
         button.innerHTML = `${key.replace(/-/g, ' ')} <span class="close-btn">&#x2716;</span>`;
         templateList.appendChild(button);
     });
-    initializeCocinaSection(); // Reasigna eventos
+
+    initializeCocinaSection();
 }
 
 // Pantalla de despedida
