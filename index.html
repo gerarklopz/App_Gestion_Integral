@@ -49,6 +49,30 @@
                 </thead>
                 <tbody id="inventory-body">
                     <!-- Las filas dinámicas aparecerán aquí -->
+                    <tr>
+                        <td><input type="text" placeholder="Artículo"></td>
+                        <td>
+                            <input type="number" placeholder="Cantidad">
+                            <select>
+                                <option value="L">L</option>
+                                <option value="Gr">Gr</option>
+                                <option value="Unid">Unid</option>
+                                <option value="Cajas">Cajas</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="number" placeholder="Cantidad">
+                            <select>
+                                <option value="L">L</option>
+                                <option value="Gr">Gr</option>
+                                <option value="Unid">Unid</option>
+                                <option value="Cajas">Cajas</option>
+                            </select>
+                        </td>
+                        <td><input type="text" placeholder="Diferencia" disabled></td>
+                        <td><input type="text" placeholder="Gasto Mensual" disabled></td>
+                        <td><button class="delete-row">Eliminar</button></td>
+                    </tr>
                 </tbody>
             </table>
             <button id="add-row">Añadir Fila</button>
@@ -58,28 +82,33 @@
         
 
        <!-- Sección de Cocina -->
-<section id="cocina-section" style="display: none;">
-    <h2>Sección de Cocina</h2>
-    <p>Selecciona una plantilla para trabajar:</p>
-    <div id="template-list">
-        <button class="template-btn" data-template="control-alergenos">Control de Alérgenos</button>
-        <button class="template-btn" data-template="control-temperaturas">Control Diario de Temperaturas</button>
-        <button class="template-btn" data-template="registro-comidas">Registro de Comidas/Cenas</button>
-        <button class="template-btn" data-template="registro-platos">Registro de Platos/Ingredientes Elaborados</button>
-        <button class="template-btn" data-template="desinfeccion-vegetales">Desinfección de Vegetales</button>
-        <button class="template-btn" data-template="control-freidoras">Control de Freidoras</button>
-        <button class="template-btn" data-template="control-horneados">Control de Horneados</button>
-        <button class="template-btn" data-template="control-agua">Control de Agua</button>
-        <button class="template-btn" data-template="registro-incidencias">Registro de Incidencias</button>
-        <button class="template-btn" data-template="plan-limpieza">Plan de Limpieza</button>
-        <button class="template-btn" data-template="limpieza-segun-uso">Limpieza Según Uso</button>
-    </div>
+       <section id="cocina-section" style="display: none;">
+        <h2>Sección de Cocina</h2>
+        <p>Selecciona una plantilla para trabajar:</p>
+        <div id="template-list">
+            <button class="template-btn" data-template="control-alergenos">Control de Alérgenos <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="control-temperaturas">Control Diario de Temperaturas <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="registro-comidas">Registro de Comidas/Cenas <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="registro-platos">Registro de Platos/Ingredientes Elaborados <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="desinfeccion-vegetales">Desinfección de Vegetales <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="control-freidoras">Control de Freidoras <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="control-horneados">Control de Horneados <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="control-agua">Control de Agua <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="registro-incidencias">Registro de Incidencias <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="plan-limpieza">Plan de Limpieza <span class="close-btn">&#x2716;</span></button>
+            <button class="template-btn" data-template="limpieza-segun-uso">Limpieza Según Uso <span class="close-btn">&#x2716;</span></button>
+        </div>
 
     <div id="template-display" style="margin-top: 20px;">
         <!-- Aquí se cargará la plantilla seleccionada -->
     </div>
     <button id="back-from-cocina">Volver Atrás</button>
 </section>
+    <!-- Pantalla de Despedida -->
+<section id="goodbye-screen" style="display: none; text-align: center; margin-top: 50px;">
+    <h2>¡Gracias por usar "App de Gestión Integral"!</h2>
+    <p>Esperamos verte pronto. Que tengas un excelente día.</p>
+    <button id="goodbye-exit">Cerrar Aplicación</button>
     </main>
     <script src="script.js"></script>
 </body>
