@@ -1,0 +1,521 @@
+Hola de nuevo Jr.Quisiera usar Docker  todo funcionando cojuntamente en éste proyecto:Resumen del Proyecto: App de Gestión Integral Basada en Bases de Datos y Automatización
+El objetivo del proyecto es desarrollar una aplicación que centralice y automatice la gestión de datos, simplifique los procesos operativos y ofrezca una solución escalable y eficiente para los usuarios. Aprovecharemos las tecnologías seleccionadas para garantizar flexibilidad, robustez y una experiencia de usuario optimizada.
+
+Descripción del Proyecto
+Funcionalidades clave:
+
+Gestión de inventario: Registrar y actualizar datos de productos, proveedores, lotes, fechas de recepción y caducidad.
+Automatización de tareas repetitivas: Generación automática de reportes, envío de alertas sobre caducidades próximas, y control de incidencias.
+Consulta avanzada: Permitir búsquedas dinámicas por filtros (ejemplo: alérgenos, proveedor, lote).
+Integración de múltiples bases de datos: Uso de MySQL, PostgreSQL y MongoDB según los requerimientos de cada módulo.
+Seguridad y versionado: Control de accesos y registro de cambios con Git y Docker para despliegues controlados.
+Usuarios objetivo:
+
+Administradores: Gestión total de los datos, configuraciones y usuarios.
+Operadores: Registro y consulta de datos en tiempo real.
+Supervisores: Monitoreo de reportes e incidencias.
+Arquitectura Tecnológica
+Tecnología	Propósito
+MySQL	Gestión de datos estructurados de alto rendimiento (usuarios, roles, accesos).
+PostgreSQL	Datos relacionales complejos con análisis avanzado (reportes y estadísticas).
+MongoDB	Manejo de datos no estructurados (inventario, productos, lotes).
+Docker	Contenerización para garantizar la reproducibilidad y facilitar el despliegue.
+Scrum	Metodología ágil para organizar tareas, priorizar sprints y mejorar la colaboración del equipo.
+JavaScript (JS)	Interfaz de usuario interactiva para navegación fluida y funcionalidades dinámicas.
+Linux Commands	Gestión del servidor y tareas automatizadas en el backend.
+Bash/Shell	Scripts para automatizar tareas (respaldos, inicialización de servicios, limpieza de datos).
+Python	Backend principal, procesamiento de datos, integración con bases de datos, y automatización.
+Git	Control de versiones y colaboración del equipo.
+Propuesta de Implementación
+Planificación (Scrum):
+
+Sprints iniciales:
+Configuración del entorno (Docker).
+Diseño de la base de datos.
+Prototipo básico de la interfaz.
+Backlog: Priorización de funcionalidades principales.
+Base de Datos:
+
+Diseño híbrido:
+MySQL: Datos relacionados con usuarios y roles.
+PostgreSQL: Generación de reportes y estadísticas avanzadas.
+MongoDB: Datos no estructurados, como inventarios y productos.
+Integración: Uso de APIs REST para conectar las bases de datos.
+Backend:
+
+Python: Frameworks como Flask o FastAPI para crear APIs RESTful.
+Automatización: Scripts en Python y Bash para respaldos y monitoreo.
+Frontend:
+
+JavaScript: Uso de frameworks como React.js o Vue.js para la interfaz.
+Conexión con backend: Axios o Fetch API para comunicación con las APIs.
+DevOps:
+
+Docker: Contenedores para bases de datos, backend, frontend y herramientas auxiliares.
+Scripts de automatización: Respaldos automáticos, limpieza de datos y monitoreo.
+Seguridad:
+
+Roles y permisos: Control de accesos en las bases de datos.
+Backups regulares: Scripts programados para garantizar la integridad de los datos.
+Versionado con Git: Seguimiento detallado de cambios en el código.
+Monitoreo y análisis:
+
+Logs: Captura de actividades en bases de datos y backend.
+Alertas: Configuración de notificaciones para incidencias o caducidades próximas.
+Cronograma Tentativo
+Fase	Duración	Descripción
+Fase 1: Planificación	2 semanas	Definir funcionalidades, arquitectura, y diseño inicial.
+Fase 2: Configuración	3 semanas	Configurar Docker, bases de datos, y entorno de desarrollo.
+Fase 3: Desarrollo	8 semanas	Crear backend, frontend, e integrar componentes.
+Fase 4: Pruebas	3 semanas	Validación funcional, pruebas de carga y seguridad.
+Fase 5: Despliegue	2 semanas	Implementación en entorno de producción.
+Ventajas del Proyecto
+Automatización: Ahorro de tiempo en tareas repetitivas.
+Escalabilidad: Arquitectura flexible con integración de bases de datos híbridas.
+Productividad: Interfaz intuitiva para una gestión simplificada.
+Confiabilidad: Uso de Docker y Git para entornos reproducibles y seguros.Me dices como proceder paso a paso para el setup del container.Gracias de nuevo ;)
+ChatGPT said:
+ChatGPT
+¡Vaya proyecto impresionante, Gerard! Vamos a configurar un entorno basado en Docker paso a paso para esta aplicación de gestión integral. Este setup proporcionará contenedores para las bases de datos (MySQL, PostgreSQL, MongoDB) y el backend (Python), asegurando que todo funcione conjuntamente de forma eficiente y escalable.
+
+Paso 1: Planificar la estructura de los contenedores
+El proyecto requiere varios servicios que deben funcionar de manera integrada. Vamos a dividirlos en contenedores:
+
+MySQL: Para datos estructurados (usuarios, roles, accesos).
+PostgreSQL: Para reportes y análisis avanzados.
+MongoDB: Para inventarios y datos no estructurados.
+Backend (Python): Procesamiento de datos y APIs RESTful.
+Frontend (JavaScript): Interfaz gráfica.
+Git y herramientas auxiliares: Versionado y scripts de automatización.
+Paso 2: Crear un directorio para el proyecto
+En tu directorio /home/gerard, crea un entorno de trabajo organizado:
+
+bash
+Copy code
+mkdir -p /home/gerard/docker-project/{backend,frontend,database,scripts}
+cd /home/gerard/docker-project
+Esto crea las siguientes carpetas:
+
+backend: Código para la API.
+frontend: Interfaz del usuario.
+database: Archivos relacionados con las bases de datos.
+scripts: Automatización (respaldos, inicialización).
+Paso 3: Crear un archivo docker-compose.yml
+Utilizaremos docker-compose para gestionar todos los contenedores de forma coordinada.
+
+En el directorio del proyecto (/home/gerard/docker-project), crea este archivo:
+
+bash
+Copy code
+nano docker-compose.yml
+Agrega el siguiente contenido básico:
+
+yaml
+Copy code
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: app_db
+      MYSQL_USER: app_user
+      MYSQL_PASSWORD: app_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/mysql:/var/lib/mysql
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    restart: always
+    environment:
+      POSTGRES_USER: app_user
+      POSTGRES_PASSWORD: app_password
+      POSTGRES_DB: app_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/postgres:/var/lib/postgresql/data
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongo-container
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root_password
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./database/mongodb:/data/db
+
+  backend:
+    build:
+      context: ./backend
+    container_name: backend-container
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+      - postgres
+      - mongodb
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend-container
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+Paso 4: Configurar los servicios
+Backend: Crea un archivo base para el backend (usando Flask como ejemplo):
+
+bash
+Copy code
+cd backend
+nano Dockerfile
+Contenido del Dockerfile:
+
+dockerfile
+Copy code
+FROM python:3.9-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
+Luego, añade un archivo requirements.txt:
+
+bash
+Copy code
+flask
+flask-cors
+psycopg2
+pymongo
+mysql-connector-python
+Y un archivo básico app.py para probar:
+
+python
+Copy code
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Backend funcionando correctamente"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8000)
+Frontend: Usa React.js como ejemplo:
+
+bash
+Copy code
+cd ../frontend
+npx create-react-app .
+Luego añade un archivo Dockerfile:
+
+dockerfile
+Copy code
+FROM node:16
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD ["npm", "start"]
+EXPOSE 3000
+Paso 5: Inicializar el entorno
+Para iniciar todos los servicios definidos en docker-compose.yml:
+
+bash
+Copy code
+docker-compose up -d
+Paso 6: Verificar y probar
+Lista de contenedores activos:
+
+bash
+Copy code
+docker ps
+Acceso a los servicios:
+
+Backend: http://localhost:8000
+Frontend: http://localhost:3000
+Conexión a bases de datos: Usa herramientas como DBeaver, Postman o terminal para probar conexiones a las bases de datos.
+
+Paso 7: Automatización con scripts
+En la carpeta scripts, añade un script de respaldo automático:
+
+bash
+Copy code
+nano backup.sh
+Contenido del script:
+
+bash
+Copy code
+#!/bin/bash
+
+# Respaldar MySQL
+docker exec mysql-container mysqldump -u root -p root_password app_db > ./database/mysql/backup.sql
+
+# Respaldar PostgreSQL
+docker exec postgres-container pg_dump -U app_user app_db > ./database/postgres/backup.sql
+
+# Respaldar MongoDB
+docker exec mongo-container mongodump --username root --password root_password --out /data/db/backup
+
+echo "Respaldos completados."
+Dale permisos de ejecución:
+
+bash
+Copy code
+chmod +x backup.sh
+Paso 8: Versionado con Git
+Versiona todo tu proyecto:
+
+bash
+Copy code
+git init
+git add .
+git commit -m "Setup inicial del proyecto de gestión integral"
+Siguientes pasos
+Prueba y valida cada componente.
+Añade más funcionalidades al backend y frontend.
+Configura tareas en cron para automatizar respaldos.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+BBDD/App Control Centros Insitu Restaurant(CCIR)
+
++--------------------------------------------------------------------------------------------------------------------------------+
+|                                            CONTROL DE ALÉRGENOS (Reglamento UE 1169/2011)                                       |
+| Plato: ____________________   |   Fecha: ________________   |   Realizado por (ID): ________________                           |
++------------------------------+---------------+----------------+------------------------------------------------------------------+
+| Proveedor                    | Artículo      | Cantidad       | Lote / Fecha recepción                                           |
++------------------------------+---------------+----------------+------------------------------------------------------------------+
+|                              |               |                |                                                                  |
++------------------------------+---------------+----------------+------------------------------------------------------------------+
+| *Alérgenos presentes (marcar con X los que apliquen):                                                                                    |
+|   - Cereales con gluten        - Crustáceos        - Huevos       - Pescado        - Cacahuetes     - Soja                              |
+|   - Leche y derivados          - Frutos de cáscara - Apio         - Mostaza        - Sésamo         - Sulfitos                          |
+|   - Altramuces                 - Moluscos                                                                                                 |
++--------------------------------------------------------------------------------------------------------------------------------+
+| Observaciones:                                                                                                                 |
++--------------------------------------------------------------------------------------------------------------------------------+
+
+
++---------------------------------------------------------------------------------------+
+|                      CONTROL DIARIO DE TEMPERATURAS                                  |
+| Fecha: ______________  |  Día: ______________  |  Realizado por (ID): ______________ |
++----------+---------------------+-------------------------+-----------------------------+
+| Nº Equipo| Descripción/Ubicación | Temperatura (°C)       |   Observaciones (TA / No)  |
++----------+---------------------+-------------------------+-----------------------------+
+|          |                     |                         |                             |
++----------+---------------------+-------------------------+-----------------------------+
+|          |                     |                         |                             |
++----------+---------------------+-------------------------+-----------------------------+
+|  *Nota: En caso de TA (tarea automatizable), se registra vía sensor o script.        |
++---------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------------+
+|                                 REGISTRO DE COMIDAS/CENAS (ELABORADOS Y SERVIDOS)                                                |
+| Semana del ____ al ____ de ______ (año 20___)                                                                                    |
++--------+--------------------------+----------------------+----------------------+----------------------+---------------------------+
+| Día    | Nombre del plato        | Fin de cocción: Hora | Fin cocción: Tª (°C) | Servicio: Hora       | Servicio: Tª (°C)         |
++--------+--------------------------+----------------------+----------------------+----------------------+---------------------------+
+|        |                          |                      |                      |                      |                           |
++--------+--------------------------+----------------------+----------------------+----------------------+---------------------------+
+| Muestra (nº / nombre) | Realizado por (ID/TR)  | Observaciones                                               |
++-----------------------+------------------------+--------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------------------------------------+
+|                    REGISTRO DE PLATOS / INGREDIENTES ELABORADOS CON ANTELACIÓN                                                     |
++---------------------+------------+------------------------+-------------------------+----------------------+--------------------------+
+| Nombre del plato    | Fecha de   | Tª fin de cocción      | Hora fin de cocción    | Hora fin de          | Tª final de enfriamiento |
+| / ingrediente       | elaboración| (°C)                   | / enfriamiento         | enfriamiento         | (°C)                     |
++---------------------+------------+------------------------+-------------------------+----------------------+--------------------------+
+|                     |            |                        |                         |                      |                          |
++---------------------+------------+------------------------+-------------------------+----------------------+--------------------------+
+| Temp. regeneración (°C): _____      |  Fecha servicio: ______   |  Hora servicio: _____   |  Tª servicio (°C): _____       |
++-------------------------------------------------------------------------------------------------------------------------------------+
+| Muestra (nº / nom.): __________________________   |  Firma (ID): _________________   |  Observaciones / Incidencias     |
++-------------------------------------------------------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------+
+|                                    DESINFECCIÓN DE VEGETALES CRUDOS                                    |
+| Fecha: ______________  |  Día: ______________  |  Verificado por (Supervisor/A.M.): ___________________|
++--------------------+---------------+------------------+------------------------+--------------------------+
+| Producto           | Dosis (ml/L)  | Tiempo (min)     | Aclarado (S/N)        | Observaciones            |
+| (Nombre vegetales) | (ej. Cloro...)| (5-10 min)       | (Sí / No)             | (Incidencias)           |
++--------------------+---------------+------------------+------------------------+--------------------------+
+| Pila / Capacidad   | (litros)      |                  |                        |                          |
++--------------------+---------------+------------------+------------------------+--------------------------+
+| *Firma (ID) y Fecha/Hora automáticas                                                                |
++--------------------------------------------------------------------------------------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------+
+|                                          CONTROL DE FREIDORAS                                                     |
+| Fecha: ______________   |  Día: ______________  |  Realizado por (ID / TR): __________________                     |
++---------------------+---------------+-------------+---------------------+-------------------+------------------------+
+| Nº de Freidora      | Protecciones | Tª Aceite   | Tiempo de fritura   | Color del frito   | Tª Alimento            |
+| (ej. F1, F2, etc.)  | (Asas/Guantes| (°C)        | (min/seg)           | (Dorado, etc.)    | (°C)                   |
++---------------------+---------------+-------------+---------------------+-------------------+------------------------+
+|                     | (T/F)         |             |                     |                   |                        |
++---------------------+---------------+-------------+---------------------+-------------------+------------------------+
+|  *muestra: (número / nombre)                                                                           |
++--------------------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------+
+|                                   CONTROL DE HORNEADOS / PANES / BOLLERÍA                          |
+| Fecha: ______________ (día 1 a 31)  |  Realizado por (ID / TR): _________________________________  |
++--------------------+-------------------------+-------------------------+----------------------------+
+| Producto           | Tª horno (°C)          | Tiempo (min/seg)        | Color / Estado (dorado,...)|
++--------------------+-------------------------+-------------------------+----------------------------+
+|                    |                         |                         |                            |
++--------------------+-------------------------+-------------------------+----------------------------+
+| Tª alimento final  | Muestra (número / nom.) | Observaciones / Incid.                               |
++--------------------+-------------------------+-------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------+
+|                                   CONTROL DE AGUA / ORGANOLÉPTICO                                  |
+| Fecha: ______________  |  Día: ______________  |  Realizado por (ID): ____________________________ |
++-------------------------+---------------------+-------------------+---------------------------------+
+| Nº de grifo / Ubicación| Cloro (ppm)         | pH (valor)        | Turbidez (alta/baja)            |
++-------------------------+---------------------+-------------------+---------------------------------+
+|                         |                     |                   |                                 |
++-------------------------+---------------------+-------------------+---------------------------------+
+| Observaciones de color, olor, sabor:                                                  |
+|                                                                                       |
++---------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------+
+|                                   REGISTRO DE INCIDENCIAS Y ACCIONES CORRECTORAS                                    |
++----------------------+----------------------+------------------------------+--------------------------------------------+
+| Fecha Incidencia     | Descripción NC (*)   | Acciones Correctoras (AACC) | Responsable / Verificado por (ID / Fecha)  |
++----------------------+----------------------+------------------------------+--------------------------------------------+
+|                      |                      |                              |                                            |
++----------------------+----------------------+------------------------------+--------------------------------------------+
+| (* NC: No Conformidad, p.e. “falta de material”, “Tª inadecuada”, etc.)                                              |
++----------------------------------------------------------------------------------------------------------------------+
+
+
++-------------------------------------------------------------------------------------------------------+
+|                                     PLAN DE LIMPIEZA                                                  |
+| Día: ______________  |  Semana del ____ al ____ de __________ (Año 20___)                             |
++--------------------------+-----------+----------------------------+-------------------------------------+
+| ZONA/EQUIPO              | Frecuencia| Responsables (ID / Firma) | Observaciones (Estado, Incidencias) |
++--------------------------+-----------+----------------------------+-------------------------------------+
+| Suelos                   | Diario    |                            |                                     |
+| Mesas y encimeras        | Diario    |                            |                                     |
+| Marmitas / Basculante    | Diario    |                            |                                     |
+| Carros de servicio       | Diario    |                            |                                     |
+| Cocina (general)         | Diario    |                            |                                     |
+| Mobiliario comedor       | Diario    |                            |                                     |
+| Mesas calientes / Líneas | Diario    |                            |                                     |
+| Lavavajillas             | Diario    | Tiempo aclarado: ___ min   |                                     |
+| Pilas y lavamanos        | Diario    |                            |                                     |
+| Cubos de basura          | Diario    |                            |                                     |
+| Aseos                    | Diario    |                            |                                     |
+| Estanterías / Cajones    | Semanal?  |                            |                                     |
+| Almacén                  | Semanal?  |                            |                                     |
+| Timbres                  | Semanal?  |                            |                                     |
+| Arcones exteriores       | Semanal?  |                            |                                     |
+| Freidora/s               | Diario    |                            |                                     |
+| Desagües                 | Semanal?  |                            |                                     |
+| Campana / Filtros        | Semanal?  |                            |                                     |
+| Arcones interiores       | Semanal?  |                            |                                     |
+| Vestuarios               | Semanal?  |                            |                                     |
++--------------------------+-----------+----------------------------+-------------------------------------+
+| *Incluye: iniciales (ID) de quien realiza la limpieza y firma automática si procede                   |
++-------------------------------------------------------------------------------------------------------+
+
+
++----------------------------------------------------------------------------------------------------+
+|                                    LIMPIEZA SEGÚN USO                                              |
+| Día: ______________  |  Realizado por (ID / Firma): ___________________                            |
++-------------------------+------------+---------------------+----------------------------------------+
+| EQUIPO/HERRAMIENTA      | Frecuencia | Tiempo aclarado     | Observaciones / Incidencias            |
+| (Picadora, Batidora,    | (Tras uso) | (en min/seg.)       | (Estado, cambio de producto, etc.)     |
+|  Loncheadora, etc.)     |            |                     |                                        |
++-------------------------+------------+---------------------+----------------------------------------+
+| Vajillas y Menaje       |            |                     |                                        |
++-------------------------+------------+---------------------+----------------------------------------+
+| Tablas de corte         |            |                     |                                        |
++-------------------------+------------+---------------------+----------------------------------------+
+| Termómetro              |            |                     |                                        |
++-------------------------+------------+---------------------+----------------------------------------+
+| *Nota: Credenciales (ID) => Firma y fecha/hora automáticas                                       |
++----------------------------------------------------------------------------------------------------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+DÍA	Nombre del plato	Fin cocción	servicio	muestra		realizado por:
+---	----------------	Hota---Temp.	hora-Temp.      -------         --------------
+1-31	Quesos Artesanos	10:10 - 3.6	13:00 3.8	1		nombre cocinero
+1-31	Ensaladilla Rusa	10:10 - 3.6	13:00 3.8	2		nombre cocinero    
+1-31	Ensalada Mediterránea	9:15  - 3.9	13:00 4-1	3		nombre cocinero
+1-31	Espirales y wakame	9:35  - 3.6     13:00 3-6	4		nombre cocinero
+1-31	Mini burritos		10:10 - 79.0	13:00 78.0	5		nombre cocinero
+1-31	Mezzaluna con tomate	10:30 - 88.0	13:00 84.0      6		nombre cocinero
+1-31	Brócoli y patata	9:30  - 79.0	13:00 78.0	7		nombre cocinero
+1-31	Ragut ternera		10:10 - 90.0	13:00 89.0      8		nombre cocinero
+1-31	Pollo salsa yogurt	11:15 - 90.0	13:00 86.0	9		nombre cocinero
+1-31	Corvina pico de gallo	12:10 - 83.0	13:00 83.0	10		nombre cocinero
+1-31	patata vapor		10:15 - 74.0	13:00 78.0	11		nombre cocinero
+1-31	tomates plancha		11:10 - 89.0	13:00 85.0	12		nombre cocinero
+1-31	pasteles var.		9:10  - 4.4	13:00 3.9	13		nombre cocinero
+1-31	piña fresca		10:10 - 3.1	13:00 4.4	14		nombre cocinero
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+Plato	Posibles Alérgenos
+Ensalada Mediterránea	Leche y derivados (si lleva queso feta o similar)
+Espirales y wakame	Gluten (si lleva pasta)
+Mini burritos	Gluten (tortilla de trigo), Huevos, Leche y derivados (si lleva queso)
+Mezzaluna con tomate	Gluten (masa de la mezzaluna), Leche y derivados (si lleva queso)
+Brócoli y patata	No tiene alérgenos comunes, pero puede contener trazas de frutos secos o sésamo si se usa como aderezo
+Ragú de ternera	No tiene alérgenos principales, pero puede tener trazas de gluten si se usa harina como espesante
+Pollo con salsa de yogurt	Leche y derivados (yogurt), Huevos (si lleva mayonesa o salsa con huevo)
+Corvina con pico de gallo	Pescado, Sulfitos (si se usan en el aderezo del pico de gallo o para conservación)
+Patata vapor	No tiene alérgenos comunes. Puede contener trazas de gluten si se manipula en la misma área que productos con gluten
+Tomates a la plancha	No tiene alérgenos comunes, puede contener trazas de gluten o frutos secos si se usan en la preparación
+Pasteles variados	Gluten, Huevos, Leche y derivados (si son de tipo dulce o cremoso)
+Piña fresca	No tiene alérgenos principales
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+PERSONAL DE SALA / UNIT MANAGER:
+
++---------------------------------------------------------------------------------------------------------+
+|                                REGISTRO DE INVENTARIO MENSUAL (PERSONAL DE SALA)                       |
+| Semana del ____ al ____ de ______ (año 20___)                                                           |
++-------------------+---------------------+---------------------+-------------------+---------------------+
+| Artículo          | Cantidad Mes Anterior | Cantidad Mes Actual | Diferencia       | Gasto Mensual       |
+|                   | (Unidades/gr/kg/l.)  | (Unidades/gr/kg/l.) |                   |                     |
++-------------------+---------------------+---------------------+-------------------+---------------------+
+|                   |                     |                     |                   |                     |
++-------------------+---------------------+---------------------+-------------------+---------------------+
+|                   |                     |                     |                   |                     |
++-------------------+---------------------+---------------------+-------------------+---------------------+
+|                   |                     |                     |                   |                     |
++-------------------+---------------------+---------------------+-------------------+---------------------+
+| Observaciones/Incidencias:                                                                               |
++---------------------------------------------------------------------------------------------------------+
+| Conforme: [  ] Sí   [  ] No                                                                             |
+| Firmado por: ______________________________________                                                     |
++---------------------------------------------------------------------------------------------------------+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
