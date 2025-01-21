@@ -1,4 +1,3 @@
-// Plantillas disponibles
 const templates = {
     "control-alergenos": `
         <h3>Control de Alérgenos</h3>
