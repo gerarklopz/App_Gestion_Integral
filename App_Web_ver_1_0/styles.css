@@ -78,3 +78,16 @@ button:hover {
     box-shadow: var(--sombra-suave);
 }
 
+/*TABLAS RESPONSIVAS*/
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        border-collapse: collapse; /* Para mantener buena estructura */
+    }
+    th, td {
+        white-space: nowrap; /* Evita que el texto salte de línea */
+    }
+}
+
+
