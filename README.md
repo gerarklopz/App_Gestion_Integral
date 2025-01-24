@@ -1,10 +1,19 @@
 
-**La versión actual está en construcción.**  
-Disculpen las molestias mientras trabajamos para ofrecerles una mejor experiencia.
+# App_Gestion_Integral
+Una aplicación escalable y automatizada para la gestión de bases de datos, diseñada para centralizar operaciones, optimizar flujos de trabajo y mejorar la productividad del usuario.
 
-## 📂 Descargar la versión 1.0
-Puedes descargar la versión 1.0 desde nuestro repositorio
+## Descripción
+Aplicación diseñada para centralizar y automatizar la gestión de datos, optimizar procesos y mejorar la productividad.
+
+## Funcionalidades
+- Registro y consulta de datos.
+- Automatización de tareas repetitivas.
+- Búsquedas avanzadas con filtros.
+- Control de accesos y versiones.
+
+## Tecnologías
+- **Lenguaje:** Js, Python
+- **Bases de datos:** MySQL, PostgreSQL, MongoDB
+- **Herramientas:** Git, Docker
 
 
-**Gracias por tu paciencia y apoyo.**  
-Estaremos de vuelta pronto con mejoras significativas. 🎉
